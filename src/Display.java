@@ -28,6 +28,7 @@ public class Display implements ActionListener {
 	private JLabel parentHandSuitLbl[] = new JLabel[5];
 	private JLabel parentHandNoLbl[] = new JLabel[5];
 	
+	
 	// 子のカード情報ラベルオブジェクト（マーク、数字）
 	private JLabel child_lbl, child_suit_lbl, child_no_lbl;
 	
@@ -44,7 +45,7 @@ public class Display implements ActionListener {
 		
 		// ゲーム画面全体の表示
 		disp = new JFrame("POKER GAME");		// 画面を生成
-		disp.setSize(480,200);							// 画面サイズを設定
+		disp.setSize(480,600);							// 画面サイズを設定
 		disp.setLocationRelativeTo(null);			// 画面の表示位置を中央に設定
 		disp.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);		// 「✕」ボタンで画面を閉じるように設定
 		disp.setResizable(false); 														// 画面サイズを変更できないように設定
@@ -61,16 +62,35 @@ public class Display implements ActionListener {
 		
 		// ミドルパネルの表示設定
 		mid_panel = new JPanel();				// パネルを生成
-		setPanel( mid_panel, Color.CYAN, null, new Dimension(480, 180) );			// パネルの背景色、レイアウト、サイズを設定
+		//setPanel( mid_panel, Color.CYAN, null, new Dimension(480, 180) );			// パネルの背景色、レイアウト、サイズを設定
+		// アイコンが回り込んでいる。
 		disp.add(mid_panel, BorderLayout.CENTER);			// 画面中央部にパネルを追加
 		
 		
 		
 		// 親カードの情報を表示
-//		parent_lbl = new JLabel("私のカード");
+		parent_lbl = new JLabel("私のカード");
+		parentHandSuitLbl[0] = new JLabel( getSuitIcon( parent.GetSuit(0) ) );
+		parentHandNoLbl[0] = new JLabel( getNoStr( parent.GetNo(0) ) );
 		
+		
+		ImageIcon TestImage ;
+		TestImage = new ImageIcon("./src/dog.jpg" ); //C:/pleiades/CardGame/src/dog.jpg(絶対パス or CardGameをカレントディレクトリとしてからの相対パス指定)
+		JLabel Test = new JLabel( TestImage );
+		System.out.println(Test);
+		// ミドルパネルに追加
+		mid_panel.add(parent_lbl);
+		mid_panel.add(parentHandSuitLbl[0]);
+//		mid_panel.add(Test);
+//		mid_panel.add(parentHandNoLbl[0]);
+		
+		// ラベルのフォントを設定
+		setLabelFont(parent_lbl,Color.WHITE,90,10,100,20,14,false);
+		setLabelFont(parentHandSuitLbl[0],Color.WHITE,100,10,80,100,16,false);
+		setLabelFont(parentHandNoLbl[0],Color.WHITE,100,35,80,100,16,true);
 		
 		// 子カード情報の表示
+//		child_lbl = new Jlabel("あなたのカード");
 		
 		// ゲーム画面の表示
 		disp.setVisible(true);
@@ -116,30 +136,32 @@ public class Display implements ActionListener {
 	
 	// マークに応じたアイコンオブジェクトを取得するメソッド
 	public static ImageIcon getSuitIcon( int suit ) {
-		ImageIcon icon;
+		ImageIcon icon = null;
 		
 		// マークに応じた画像を読み込んでリターンする
-		switch(suit) {
-		
-			case 0 :		// スペード
-				icon = new ImageIcon("spade.png");			// アイコンが保存されている場所を格納する。
-				break;
-				
-			case 1 : // ハート
-				icon = new ImageIcon("heart.png");
-				break;
-				
-			case 2: // ダイヤ
-				icon = new ImageIcon("dia.png");
-				break;
-				
-			case 3: // クラブ
-				icon = new ImageIcon("spade.png");
-				break;
-				
+			switch(suit) {
+			
+				case 0 :		// スペード
+					icon = new ImageIcon("./src/spade.png");			// アイコンが保存されている場所を格納する。
+					break;
+					
+				case 1 : // ハート
+					icon = new ImageIcon("./src/heart.png");
+					break;
+					
+				case 2: // ダイヤ
+					icon = new ImageIcon("./src/dia.png");
+					break;
+					
+				case 3: // クラブ
+					icon = new ImageIcon("./src/dia.png");
+					break;
+					
 				default : // マークが不正の場合
 					icon = null;
-		}
+			}
+	
+		System.out.println("アイコンの場所呼ばれてる？" + icon);
 		return icon;
 	}
 	
@@ -169,6 +191,7 @@ public class Display implements ActionListener {
 				default :		// 上記以外は数字をそのまま文字列として出力する
 					No = String.valueOf(no);
 		}
+		
 		return No;
 	}
 	
